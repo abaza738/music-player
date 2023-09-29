@@ -1,22 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useLogger } from '../store/logger';
 
 const store = useLogger();
-const count = ref(0);
 
 onMounted(() => {
-    fetchLogs();
+    store.fetchLogs();
 });
 
-function fetchLogs() {
-    const skip = store.logs.length;
-    fetch(`${import.meta.env.VITE_API_URL}/log?skip=${skip}`)
-        .then(res => res.json()).then(res => {
-            const [data, countLogs] = res;
-            store.setLogs(data);
-            count.value = countLogs;
-        });
+function loadMore() {
+    store.skip = store.logs.length;
+    store.fetchLogs();
 }
 
 function formatDate(datetime: string) {
@@ -44,7 +38,7 @@ function formatDate(datetime: string) {
             </div>
         </section>
 
-        <button class="rounded-lg text-white bg-blue-400 disabled:bg-gray-400 disabled:text-gray-600 p-3" @click="fetchLogs"
-            :disabled="count <= store.logs.length">Load More</button>
+        <button class="rounded-lg text-white bg-blue-400 disabled:bg-gray-400 disabled:text-gray-600 p-3" @click="loadMore"
+            :disabled="store.count <= store.logs.length">Load More</button>
     </div>
 </template>
