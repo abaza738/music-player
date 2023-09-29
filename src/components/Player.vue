@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, watchEffect } from "vue";
+import { onUnmounted, reactive, ref, watchEffect } from "vue";
 import { formatTime, throttle } from "../utils";
 import { useLogger } from "../store/logger";
 
@@ -60,6 +60,13 @@ const updatePlaybackProgress = () => {
         }
     }, 250);
 };
+
+onUnmounted(() => {
+    audio.pause();
+    audio.remove();
+    isPlaying.value = false;
+});
+
 </script>
 
 <template>
