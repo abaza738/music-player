@@ -11,11 +11,11 @@ export const useLogger = defineStore("logger", () => {
   };
 
   const push = (event: Log) => {
-    logs.value.push(event);
+    logs.value.unshift(event);
   };
 
   const setLogs = (newLogs: Log[]) => {
-    logs.value = newLogs;
+    logs.value.push(...newLogs);
   };
 
   return {
