@@ -18,7 +18,7 @@ export const formatTime = (seconds: number) => {
   if (isNaN(seconds)) {
     return `00:00`;
   }
-  const minutes = `${(seconds / 60).toFixed()}`;
-  const remainingSeconds = `${(seconds % 60).toFixed()}`;
+  const minutes = `${Math.floor(seconds / 60)}`;
+  const remainingSeconds = `${Math.floor(seconds % 60)}`;
   return `${minutes.padStart(2, "0")}:${remainingSeconds.padStart(2, "0")}`;
 };
